@@ -6,6 +6,10 @@ Rails.application.routes.draw do
   namespace :api, defaults: { format: :json } do
     namespace :v1 do
       resources :olympics, only: [ :index, :show, :update, :create, :destroy ]
+      resources :users, only: [ :index, :show, :update, :destroy ]
+      resources :responsable, only: [ :index ]
+      resources :questions, only: [ :index, :show, :update, :create, :destroy ]
+      resources :alternatives, only: [ :index, :show, :update, :create ]
     end
   end
 end

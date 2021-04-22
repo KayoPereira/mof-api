@@ -10,10 +10,34 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_04_20_235707) do
+ActiveRecord::Schema.define(version: 2021_04_22_223231) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "alternatives", force: :cascade do |t|
+    t.bigint "question_id"
+    t.text "description"
+    t.boolean "is_true"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["question_id"], name: "index_alternatives_on_question_id"
+  end
+
+  create_table "hierarchies", force: :cascade do |t|
+    t.string "name"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "olympic_tests", force: :cascade do |t|
+    t.bigint "olympic_id"
+    t.bigint "test_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["olympic_id"], name: "index_olympic_tests_on_olympic_id"
+    t.index ["test_id"], name: "index_olympic_tests_on_test_id"
+  end
 
   create_table "olympics", force: :cascade do |t|
     t.string "title"
@@ -22,6 +46,12 @@ ActiveRecord::Schema.define(version: 2021_04_20_235707) do
     t.date "start_registration"
     t.date "end_registration"
     t.string "image"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "questions", force: :cascade do |t|
+    t.text "title"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end
@@ -35,6 +65,23 @@ ActiveRecord::Schema.define(version: 2021_04_20_235707) do
     t.index ["user_id"], name: "index_responsables_on_user_id"
   end
 
+  create_table "test_questions", force: :cascade do |t|
+    t.bigint "test_id"
+    t.bigint "question_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["question_id"], name: "index_test_questions_on_question_id"
+    t.index ["test_id"], name: "index_test_questions_on_test_id"
+  end
+
+  create_table "tests", force: :cascade do |t|
+    t.text "description"
+    t.date "start_test"
+    t.date "end_test"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
   create_table "users", force: :cascade do |t|
     t.string "email", default: "", null: false
     t.string "encrypted_password", default: "", null: false
@@ -46,11 +93,19 @@ ActiveRecord::Schema.define(version: 2021_04_20_235707) do
     t.string "name"
     t.string "cpf"
     t.string "authentication_token", limit: 30
+    t.bigint "hierarchy_id"
     t.index ["authentication_token"], name: "index_users_on_authentication_token", unique: true
     t.index ["email"], name: "index_users_on_email", unique: true
+    t.index ["hierarchy_id"], name: "index_users_on_hierarchy_id"
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
+  add_foreign_key "alternatives", "questions"
+  add_foreign_key "olympic_tests", "olympics"
+  add_foreign_key "olympic_tests", "tests"
   add_foreign_key "responsables", "olympics"
   add_foreign_key "responsables", "users"
+  add_foreign_key "test_questions", "questions"
+  add_foreign_key "test_questions", "tests"
+  add_foreign_key "users", "hierarchies"
 end

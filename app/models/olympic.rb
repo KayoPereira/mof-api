@@ -1,6 +1,6 @@
 class Olympic < ApplicationRecord
-
   has_many :responsable
+  has_many :olympic_tests
 
   validates :title, presence: true, uniqueness: true
   validates :description, presence: true
