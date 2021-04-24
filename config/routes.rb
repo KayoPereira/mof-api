@@ -10,7 +10,7 @@ Rails.application.routes.draw do
       resources :responsable, only: [ :index ]
       resources :questions, only: [ :index, :show, :update, :create, :destroy ]
       resources :alternatives, only: [ :index, :show, :update, :create ]
-      resources :subscriptions, only: [ :index, :show ]
+      resources :subscriptions, only: [ :index, :show, :update, :create ]
     end
   end
 end
