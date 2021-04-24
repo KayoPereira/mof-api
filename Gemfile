@@ -32,6 +32,7 @@ gem 'devise'
 gem 'pundit'
 gem 'simple_token_authentication'
 gem 'rails_admin', '~> 2.0'
+gem 'csv'
 
 
 gem 'autoprefixer-rails'

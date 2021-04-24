@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_04_22_223231) do
+ActiveRecord::Schema.define(version: 2021_04_24_145713) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -24,19 +24,16 @@ ActiveRecord::Schema.define(version: 2021_04_22_223231) do
     t.index ["question_id"], name: "index_alternatives_on_question_id"
   end
 
-  create_table "hierarchies", force: :cascade do |t|
+  create_table "brazil_states", force: :cascade do |t|
     t.string "name"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end
 
-  create_table "olympic_tests", force: :cascade do |t|
-    t.bigint "olympic_id"
-    t.bigint "test_id"
+  create_table "hierarchies", force: :cascade do |t|
+    t.string "name"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.index ["olympic_id"], name: "index_olympic_tests_on_olympic_id"
-    t.index ["test_id"], name: "index_olympic_tests_on_test_id"
   end
 
   create_table "olympics", force: :cascade do |t|
@@ -65,13 +62,17 @@ ActiveRecord::Schema.define(version: 2021_04_22_223231) do
     t.index ["user_id"], name: "index_responsables_on_user_id"
   end
 
-  create_table "test_questions", force: :cascade do |t|
-    t.bigint "test_id"
-    t.bigint "question_id"
+  create_table "subscriptions", force: :cascade do |t|
+    t.bigint "user_id"
+    t.bigint "olympic_id"
+    t.bigint "brazil_state_id"
+    t.string "county"
+    t.text "school"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.index ["question_id"], name: "index_test_questions_on_question_id"
-    t.index ["test_id"], name: "index_test_questions_on_test_id"
+    t.index ["brazil_state_id"], name: "index_subscriptions_on_brazil_state_id"
+    t.index ["olympic_id"], name: "index_subscriptions_on_olympic_id"
+    t.index ["user_id"], name: "index_subscriptions_on_user_id"
   end
 
   create_table "tests", force: :cascade do |t|
@@ -101,11 +102,10 @@ ActiveRecord::Schema.define(version: 2021_04_22_223231) do
   end
 
   add_foreign_key "alternatives", "questions"
-  add_foreign_key "olympic_tests", "olympics"
-  add_foreign_key "olympic_tests", "tests"
   add_foreign_key "responsables", "olympics"
   add_foreign_key "responsables", "users"
-  add_foreign_key "test_questions", "questions"
-  add_foreign_key "test_questions", "tests"
+  add_foreign_key "subscriptions", "brazil_states"
+  add_foreign_key "subscriptions", "olympics"
+  add_foreign_key "subscriptions", "users"
   add_foreign_key "users", "hierarchies"
 end
