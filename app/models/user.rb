@@ -11,7 +11,8 @@ class User < ApplicationRecord
 
   acts_as_token_authenticatable
 
-  validates :name, presence: true
-  validates :cpf, presence: true
+  validates :name, presence: true, format: { with: /^([a-zA-z]+\s[a-zA-z]+)$/, message: "name and surname", multiline: true }
+  validates :email, presence: true, format: { with: /^\S+@\S+\.+\w.?\w?$/, message: "valid email", multiline: true}, uniqueness: true
+  validates :cpf, presence: true, length: { is: 11 }, numericality: { only_integer: true }, uniqueness: true
   validates :hierarchy_id, presence: true
 end
