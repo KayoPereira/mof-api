@@ -1,3 +1,5 @@
-<p>USUÁRIO: <%= current_user.name %></p>
-<p>EMAIL DE USUÁRIO: <%= current_user.email %></p>
-<p>TOKEN DE USUÁRIO: <%= current_user.authentication_token %></p>
+<% if current_user != nil %>
+  <p>USUÁRIO: <%= current_user.name %></p>
+  <p>EMAIL DE USUÁRIO: <%= current_user.email %></p>
+  <p>TOKEN DE USUÁRIO: <%= current_user.authentication_token %></p>
+<% end %>

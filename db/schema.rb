@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_04_24_145713) do
+ActiveRecord::Schema.define(version: 2021_04_28_215327) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -28,6 +28,15 @@ ActiveRecord::Schema.define(version: 2021_04_24_145713) do
     t.string "name"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "exams", force: :cascade do |t|
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.bigint "test_id"
+    t.bigint "olympic_id"
+    t.index ["olympic_id"], name: "index_exams_on_olympic_id"
+    t.index ["test_id"], name: "index_exams_on_test_id"
   end
 
   create_table "hierarchies", force: :cascade do |t|
@@ -75,6 +84,15 @@ ActiveRecord::Schema.define(version: 2021_04_24_145713) do
     t.index ["user_id"], name: "index_subscriptions_on_user_id"
   end
 
+  create_table "test_questions", force: :cascade do |t|
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.bigint "test_id"
+    t.bigint "question_id"
+    t.index ["question_id"], name: "index_test_questions_on_question_id"
+    t.index ["test_id"], name: "index_test_questions_on_test_id"
+  end
+
   create_table "tests", force: :cascade do |t|
     t.text "description"
     t.date "start_test"
@@ -102,10 +120,14 @@ ActiveRecord::Schema.define(version: 2021_04_24_145713) do
   end
 
   add_foreign_key "alternatives", "questions"
+  add_foreign_key "exams", "olympics"
+  add_foreign_key "exams", "tests"
   add_foreign_key "responsables", "olympics"
   add_foreign_key "responsables", "users"
   add_foreign_key "subscriptions", "brazil_states"
   add_foreign_key "subscriptions", "olympics"
   add_foreign_key "subscriptions", "users"
+  add_foreign_key "test_questions", "questions"
+  add_foreign_key "test_questions", "tests"
   add_foreign_key "users", "hierarchies"
 end

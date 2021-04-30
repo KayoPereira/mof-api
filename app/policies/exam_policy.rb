@@ -1,4 +1,4 @@
-class OlympicPolicy < ApplicationPolicy
+class ExamPolicy < ApplicationPolicy
   class Scope < Scope
     def resolve
       scope.all
@@ -6,11 +6,11 @@ class OlympicPolicy < ApplicationPolicy
   end
 
   def show?
-    user.hierarchy_id == 1
+    true
   end
 
   def update?
-    user.hierarchy_id == 1
+    true
   end
 
   def create?
