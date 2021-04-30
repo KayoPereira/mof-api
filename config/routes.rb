@@ -11,6 +11,9 @@ Rails.application.routes.draw do
       resources :questions, only: [ :index, :show, :update, :create, :destroy ]
       resources :alternatives, only: [ :index, :show, :update, :create ]
       resources :subscriptions, only: [ :index, :show, :update, :create ]
+      resources :exams, only: [ :index, :show, :update, :create, :destroy ]
+      resources :tests, only: [ :index, :show, :update, :create, :destroy ]
+      resources :test_questions, only: [ :index, :show, :update, :create, :destroy ]
     end
   end
 end
